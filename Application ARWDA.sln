@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application ARWDA", "Application ARWDA\Application ARWDA.csproj", "{3103D505-50DC-40C1-828C-F1257106DAB5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application ARWDA.Tests", "Application ARWDA.Tests\Application ARWDA.Tests.csproj", "{FDAF0CB2-271E-4179-84BB-93F70405F99B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3103D505-50DC-40C1-828C-F1257106DAB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3103D505-50DC-40C1-828C-F1257106DAB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3103D505-50DC-40C1-828C-F1257106DAB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3103D505-50DC-40C1-828C-F1257106DAB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDAF0CB2-271E-4179-84BB-93F70405F99B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDAF0CB2-271E-4179-84BB-93F70405F99B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDAF0CB2-271E-4179-84BB-93F70405F99B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDAF0CB2-271E-4179-84BB-93F70405F99B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
