@@ -1,0 +1,504 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ARDWAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AssignPerson">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PersonName" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="PersonLevel" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Audit">
+          <Key>
+            <PropertyRef Name="ProcesseedFileName" />
+          </Key>
+          <Property Name="ProcesseedFileName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="ProcessedDateTime" Type="date" Nullable="false" />
+          <Property Name="RowsInFile" Type="int" Nullable="false" />
+          <Property Name="AutoProcessedRows" Type="int" />
+          <Property Name="RowsUnknownStock" Type="int" />
+          <Property Name="RowsInvalidDate" Type="int" />
+          <Property Name="RowsMissingData" Type="int" />
+        </EntityType>
+        <EntityType Name="ErrorData">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="FileName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="ErrorFieldColumn" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="AnalystID" Type="int" />
+          <Property Name="AnalystComment" Type="varchar" MaxLength="255" />
+          <Property Name="AnalystCompletedTime" Type="date" />
+          <Property Name="ManagerID" Type="int" />
+          <Property Name="ManagerComment" Type="varchar" MaxLength="255" />
+          <Property Name="ManagerCompletedTime" Type="date" />
+          <Property Name="DividendID" Type="int" Nullable="false" />
+          <Property Name="Symbol" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="IssueName" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="CUSIP" Type="varchar" MaxLength="9" Nullable="false" />
+          <Property Name="IssueType" Type="varchar" MaxLength="180" Nullable="false" />
+          <Property Name="OutstandingShares" Type="int" />
+          <Property Name="Frequency" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ExDate" Type="date" Nullable="false" />
+          <Property Name="DeclaredDate" Type="date" Nullable="false" />
+          <Property Name="ConfirmationDate" Type="date" Nullable="false" />
+          <Property Name="PayDate" Type="date" />
+          <Property Name="RecordDate" Type="date" Nullable="false" />
+          <Property Name="UpdatedDate" Type="date" Nullable="false" />
+          <Property Name="CAType" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="DividendAmount" Type="numeric" Precision="7" Scale="0" />
+          <Property Name="DividendCurrency" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Distribution" Type="numeric" Precision="4" Scale="0" />
+          <Property Name="RatioTo" Type="numeric" Precision="4" Scale="0" />
+          <Property Name="RatioFor" Type="numeric" Precision="4" Scale="0" />
+          <Property Name="FinalAmount" Type="numeric" Precision="4" Scale="0" />
+          <Property Name="FinalAmountCurrency" Type="varchar" MaxLength="100" />
+          <Property Name="RemoveFlag" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="CancellationReason" Type="varchar" MaxLength="255" />
+          <Property Name="CancelledDate" Type="date" />
+          <Property Name="MiscNotes" Type="varchar" MaxLength="300" />
+          <Property Name="Market" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="ForeignPrivateIssuerFlag" Type="varchar" MaxLength="1" />
+          <Property Name="NormalAmount" Type="numeric" Precision="5" Scale="3" />
+          <Property Name="LongTermCapitalGains" Type="varchar" MaxLength="20" />
+          <Property Name="ShortTermCapitalGains" Type="varchar" MaxLength="20" />
+          <Property Name="ReturnOfCapital" Type="varchar" MaxLength="20" />
+          <Property Name="Special" Type="varchar" MaxLength="20" />
+          <Property Name="Other" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="Login">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Username" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="PersonLevel" Type="int" Nullable="false" />
+          <Property Name="EmailAddress" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="ForgotFlag" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="AssignedOfficer" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MasterInstrument">
+          <Key>
+            <PropertyRef Name="DividendID" />
+          </Key>
+          <Property Name="DividendID" Type="int" Nullable="false" />
+          <Property Name="Symbol" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="IssueName" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="CUSIP" Type="varchar" MaxLength="9" Nullable="false" />
+          <Property Name="IssueType" Type="varchar" MaxLength="180" Nullable="false" />
+          <Property Name="OutstandingShares" Type="int" />
+          <Property Name="Frequency" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ExDate" Type="date" Nullable="false" />
+          <Property Name="DeclaredDate" Type="date" Nullable="false" />
+          <Property Name="ConfirmationDate" Type="date" Nullable="false" />
+          <Property Name="PayDate" Type="date" />
+          <Property Name="RecordDate" Type="date" Nullable="false" />
+          <Property Name="UpdatedDate" Type="date" Nullable="false" />
+          <Property Name="CAType" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="DividendAmount" Type="numeric" Precision="7" Scale="0" />
+          <Property Name="DividendCurrency" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Distribution" Type="numeric" Precision="4" Scale="0" />
+          <Property Name="RatioTo" Type="numeric" Precision="4" Scale="0" />
+          <Property Name="RatioFor" Type="numeric" Precision="4" Scale="0" />
+          <Property Name="FinalAmount" Type="numeric" Precision="4" Scale="0" />
+          <Property Name="FinalAmountCurrency" Type="varchar" MaxLength="100" />
+          <Property Name="RemoveFlag" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="CancellationReason" Type="varchar" MaxLength="255" />
+          <Property Name="CancelledDate" Type="date" />
+          <Property Name="MiscNotes" Type="varchar" MaxLength="300" />
+          <Property Name="Market" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="ForeignPrivateIssuerFlag" Type="varchar" MaxLength="1" />
+          <Property Name="NormalAmount" Type="numeric" Precision="5" Scale="3" />
+          <Property Name="LongTermCapitalGains" Type="varchar" MaxLength="20" />
+          <Property Name="ShortTermCapitalGains" Type="varchar" MaxLength="20" />
+          <Property Name="ReturnOfCapital" Type="varchar" MaxLength="20" />
+          <Property Name="Special" Type="varchar" MaxLength="20" />
+          <Property Name="Other" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="Polling">
+          <Key>
+            <PropertyRef Name="UnFileName" />
+          </Key>
+          <Property Name="UnFileName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Path" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Flag" Type="varchar" MaxLength="3" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ErrorData_Audit">
+          <End Role="Audit" Type="Self.Audit" Multiplicity="1" />
+          <End Role="ErrorData" Type="Self.ErrorData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Audit">
+              <PropertyRef Name="ProcesseedFileName" />
+            </Principal>
+            <Dependent Role="ErrorData">
+              <PropertyRef Name="FileName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Login_AssignedPerson">
+          <End Role="AssignPerson" Type="Self.AssignPerson" Multiplicity="1" />
+          <End Role="Login" Type="Self.Login" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AssignPerson">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Login">
+              <PropertyRef Name="AssignedOfficer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ARDWAModelStoreContainer">
+          <EntitySet Name="AssignPerson" EntityType="Self.AssignPerson" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Audit" EntityType="Self.Audit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ErrorData" EntityType="Self.ErrorData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Login" EntityType="Self.Login" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MasterInstrument" EntityType="Self.MasterInstrument" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Polling" EntityType="Self.Polling" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ErrorData_Audit" Association="Self.FK_ErrorData_Audit">
+            <End Role="Audit" EntitySet="Audit" />
+            <End Role="ErrorData" EntitySet="ErrorData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Login_AssignedPerson" Association="Self.FK_Login_AssignedPerson">
+            <End Role="AssignPerson" EntitySet="AssignPerson" />
+            <End Role="Login" EntitySet="Login" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ARDWAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AssignPerson">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersonName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PersonLevel" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Logins" Relationship="Self.FK_Login_AssignedPerson" FromRole="AssignPerson" ToRole="Login" />
+        </EntityType>
+        <EntityType Name="Audit">
+          <Key>
+            <PropertyRef Name="ProcesseedFileName" />
+          </Key>
+          <Property Name="ProcesseedFileName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProcessedDateTime" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="RowsInFile" Type="Int32" Nullable="false" />
+          <Property Name="AutoProcessedRows" Type="Int32" />
+          <Property Name="RowsUnknownStock" Type="Int32" />
+          <Property Name="RowsInvalidDate" Type="Int32" />
+          <Property Name="RowsMissingData" Type="Int32" />
+          <NavigationProperty Name="ErrorDatas" Relationship="Self.FK_ErrorData_Audit" FromRole="Audit" ToRole="ErrorData" />
+        </EntityType>
+        <EntityType Name="ErrorData">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="FileName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ErrorFieldColumn" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AnalystID" Type="Int32" />
+          <Property Name="AnalystComment" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="AnalystCompletedTime" Type="DateTime" Precision="0" />
+          <Property Name="ManagerID" Type="Int32" />
+          <Property Name="ManagerComment" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ManagerCompletedTime" Type="DateTime" Precision="0" />
+          <Property Name="DividendID" Type="Int32" Nullable="false" />
+          <Property Name="Symbol" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IssueName" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CUSIP" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IssueType" Type="String" MaxLength="180" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="OutstandingShares" Type="Int32" />
+          <Property Name="Frequency" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ExDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DeclaredDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ConfirmationDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PayDate" Type="DateTime" Precision="0" />
+          <Property Name="RecordDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="UpdatedDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CAType" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DividendAmount" Type="Decimal" Precision="7" Scale="0" />
+          <Property Name="DividendCurrency" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Distribution" Type="Decimal" Precision="4" Scale="0" />
+          <Property Name="RatioTo" Type="Decimal" Precision="4" Scale="0" />
+          <Property Name="RatioFor" Type="Decimal" Precision="4" Scale="0" />
+          <Property Name="FinalAmount" Type="Decimal" Precision="4" Scale="0" />
+          <Property Name="FinalAmountCurrency" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="RemoveFlag" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CancellationReason" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CancelledDate" Type="DateTime" Precision="0" />
+          <Property Name="MiscNotes" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Market" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ForeignPrivateIssuerFlag" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="NormalAmount" Type="Decimal" Precision="5" Scale="3" />
+          <Property Name="LongTermCapitalGains" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ShortTermCapitalGains" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ReturnOfCapital" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Special" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Other" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Audit" Relationship="Self.FK_ErrorData_Audit" FromRole="ErrorData" ToRole="Audit" />
+        </EntityType>
+        <EntityType Name="Login">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Username" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PersonLevel" Type="Int32" Nullable="false" />
+          <Property Name="EmailAddress" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ForgotFlag" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AssignedOfficer" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="AssignPerson" Relationship="Self.FK_Login_AssignedPerson" FromRole="Login" ToRole="AssignPerson" />
+        </EntityType>
+        <EntityType Name="MasterInstrument">
+          <Key>
+            <PropertyRef Name="DividendID" />
+          </Key>
+          <Property Name="DividendID" Type="Int32" Nullable="false" />
+          <Property Name="Symbol" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IssueName" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CUSIP" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IssueType" Type="String" MaxLength="180" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="OutstandingShares" Type="Int32" />
+          <Property Name="Frequency" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ExDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DeclaredDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ConfirmationDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PayDate" Type="DateTime" Precision="0" />
+          <Property Name="RecordDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="UpdatedDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CAType" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DividendAmount" Type="Decimal" Precision="7" Scale="0" />
+          <Property Name="DividendCurrency" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Distribution" Type="Decimal" Precision="4" Scale="0" />
+          <Property Name="RatioTo" Type="Decimal" Precision="4" Scale="0" />
+          <Property Name="RatioFor" Type="Decimal" Precision="4" Scale="0" />
+          <Property Name="FinalAmount" Type="Decimal" Precision="4" Scale="0" />
+          <Property Name="FinalAmountCurrency" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="RemoveFlag" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CancellationReason" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CancelledDate" Type="DateTime" Precision="0" />
+          <Property Name="MiscNotes" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Market" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ForeignPrivateIssuerFlag" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="NormalAmount" Type="Decimal" Precision="5" Scale="3" />
+          <Property Name="LongTermCapitalGains" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ShortTermCapitalGains" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ReturnOfCapital" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Special" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Other" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Polling">
+          <Key>
+            <PropertyRef Name="UnFileName" />
+          </Key>
+          <Property Name="UnFileName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Path" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Flag" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Login_AssignedPerson">
+          <End Role="AssignPerson" Type="Self.AssignPerson" Multiplicity="1" />
+          <End Role="Login" Type="Self.Login" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AssignPerson">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Login">
+              <PropertyRef Name="AssignedOfficer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ErrorData_Audit">
+          <End Role="Audit" Type="Self.Audit" Multiplicity="1" />
+          <End Role="ErrorData" Type="Self.ErrorData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Audit">
+              <PropertyRef Name="ProcesseedFileName" />
+            </Principal>
+            <Dependent Role="ErrorData">
+              <PropertyRef Name="FileName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ARDWAEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AssignPersons" EntityType="Self.AssignPerson" />
+          <EntitySet Name="Audits" EntityType="Self.Audit" />
+          <EntitySet Name="ErrorDatas" EntityType="Self.ErrorData" />
+          <EntitySet Name="Logins" EntityType="Self.Login" />
+          <EntitySet Name="MasterInstruments" EntityType="Self.MasterInstrument" />
+          <EntitySet Name="Pollings" EntityType="Self.Polling" />
+          <AssociationSet Name="FK_Login_AssignedPerson" Association="Self.FK_Login_AssignedPerson">
+            <End Role="AssignPerson" EntitySet="AssignPersons" />
+            <End Role="Login" EntitySet="Logins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ErrorData_Audit" Association="Self.FK_ErrorData_Audit">
+            <End Role="Audit" EntitySet="Audits" />
+            <End Role="ErrorData" EntitySet="ErrorDatas" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ARDWAModelStoreContainer" CdmEntityContainer="ARDWAEntities">
+          <EntitySetMapping Name="AssignPersons">
+            <EntityTypeMapping TypeName="ARDWAModel.AssignPerson">
+              <MappingFragment StoreEntitySet="AssignPerson">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PersonName" ColumnName="PersonName" />
+                <ScalarProperty Name="PersonLevel" ColumnName="PersonLevel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Audits">
+            <EntityTypeMapping TypeName="ARDWAModel.Audit">
+              <MappingFragment StoreEntitySet="Audit">
+                <ScalarProperty Name="ProcesseedFileName" ColumnName="ProcesseedFileName" />
+                <ScalarProperty Name="ProcessedDateTime" ColumnName="ProcessedDateTime" />
+                <ScalarProperty Name="RowsInFile" ColumnName="RowsInFile" />
+                <ScalarProperty Name="AutoProcessedRows" ColumnName="AutoProcessedRows" />
+                <ScalarProperty Name="RowsUnknownStock" ColumnName="RowsUnknownStock" />
+                <ScalarProperty Name="RowsInvalidDate" ColumnName="RowsInvalidDate" />
+                <ScalarProperty Name="RowsMissingData" ColumnName="RowsMissingData" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ErrorDatas">
+            <EntityTypeMapping TypeName="ARDWAModel.ErrorData">
+              <MappingFragment StoreEntitySet="ErrorData">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="ErrorFieldColumn" ColumnName="ErrorFieldColumn" />
+                <ScalarProperty Name="AnalystID" ColumnName="AnalystID" />
+                <ScalarProperty Name="AnalystComment" ColumnName="AnalystComment" />
+                <ScalarProperty Name="AnalystCompletedTime" ColumnName="AnalystCompletedTime" />
+                <ScalarProperty Name="ManagerID" ColumnName="ManagerID" />
+                <ScalarProperty Name="ManagerComment" ColumnName="ManagerComment" />
+                <ScalarProperty Name="ManagerCompletedTime" ColumnName="ManagerCompletedTime" />
+                <ScalarProperty Name="DividendID" ColumnName="DividendID" />
+                <ScalarProperty Name="Symbol" ColumnName="Symbol" />
+                <ScalarProperty Name="IssueName" ColumnName="IssueName" />
+                <ScalarProperty Name="CUSIP" ColumnName="CUSIP" />
+                <ScalarProperty Name="IssueType" ColumnName="IssueType" />
+                <ScalarProperty Name="OutstandingShares" ColumnName="OutstandingShares" />
+                <ScalarProperty Name="Frequency" ColumnName="Frequency" />
+                <ScalarProperty Name="ExDate" ColumnName="ExDate" />
+                <ScalarProperty Name="DeclaredDate" ColumnName="DeclaredDate" />
+                <ScalarProperty Name="ConfirmationDate" ColumnName="ConfirmationDate" />
+                <ScalarProperty Name="PayDate" ColumnName="PayDate" />
+                <ScalarProperty Name="RecordDate" ColumnName="RecordDate" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="CAType" ColumnName="CAType" />
+                <ScalarProperty Name="DividendAmount" ColumnName="DividendAmount" />
+                <ScalarProperty Name="DividendCurrency" ColumnName="DividendCurrency" />
+                <ScalarProperty Name="Distribution" ColumnName="Distribution" />
+                <ScalarProperty Name="RatioTo" ColumnName="RatioTo" />
+                <ScalarProperty Name="RatioFor" ColumnName="RatioFor" />
+                <ScalarProperty Name="FinalAmount" ColumnName="FinalAmount" />
+                <ScalarProperty Name="FinalAmountCurrency" ColumnName="FinalAmountCurrency" />
+                <ScalarProperty Name="RemoveFlag" ColumnName="RemoveFlag" />
+                <ScalarProperty Name="CancellationReason" ColumnName="CancellationReason" />
+                <ScalarProperty Name="CancelledDate" ColumnName="CancelledDate" />
+                <ScalarProperty Name="MiscNotes" ColumnName="MiscNotes" />
+                <ScalarProperty Name="Market" ColumnName="Market" />
+                <ScalarProperty Name="ForeignPrivateIssuerFlag" ColumnName="ForeignPrivateIssuerFlag" />
+                <ScalarProperty Name="NormalAmount" ColumnName="NormalAmount" />
+                <ScalarProperty Name="LongTermCapitalGains" ColumnName="LongTermCapitalGains" />
+                <ScalarProperty Name="ShortTermCapitalGains" ColumnName="ShortTermCapitalGains" />
+                <ScalarProperty Name="ReturnOfCapital" ColumnName="ReturnOfCapital" />
+                <ScalarProperty Name="Special" ColumnName="Special" />
+                <ScalarProperty Name="Other" ColumnName="Other" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Logins">
+            <EntityTypeMapping TypeName="ARDWAModel.Login">
+              <MappingFragment StoreEntitySet="Login">
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="PersonLevel" ColumnName="PersonLevel" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="ForgotFlag" ColumnName="ForgotFlag" />
+                <ScalarProperty Name="AssignedOfficer" ColumnName="AssignedOfficer" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MasterInstruments">
+            <EntityTypeMapping TypeName="ARDWAModel.MasterInstrument">
+              <MappingFragment StoreEntitySet="MasterInstrument">
+                <ScalarProperty Name="DividendID" ColumnName="DividendID" />
+                <ScalarProperty Name="Symbol" ColumnName="Symbol" />
+                <ScalarProperty Name="IssueName" ColumnName="IssueName" />
+                <ScalarProperty Name="CUSIP" ColumnName="CUSIP" />
+                <ScalarProperty Name="IssueType" ColumnName="IssueType" />
+                <ScalarProperty Name="OutstandingShares" ColumnName="OutstandingShares" />
+                <ScalarProperty Name="Frequency" ColumnName="Frequency" />
+                <ScalarProperty Name="ExDate" ColumnName="ExDate" />
+                <ScalarProperty Name="DeclaredDate" ColumnName="DeclaredDate" />
+                <ScalarProperty Name="ConfirmationDate" ColumnName="ConfirmationDate" />
+                <ScalarProperty Name="PayDate" ColumnName="PayDate" />
+                <ScalarProperty Name="RecordDate" ColumnName="RecordDate" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="CAType" ColumnName="CAType" />
+                <ScalarProperty Name="DividendAmount" ColumnName="DividendAmount" />
+                <ScalarProperty Name="DividendCurrency" ColumnName="DividendCurrency" />
+                <ScalarProperty Name="Distribution" ColumnName="Distribution" />
+                <ScalarProperty Name="RatioTo" ColumnName="RatioTo" />
+                <ScalarProperty Name="RatioFor" ColumnName="RatioFor" />
+                <ScalarProperty Name="FinalAmount" ColumnName="FinalAmount" />
+                <ScalarProperty Name="FinalAmountCurrency" ColumnName="FinalAmountCurrency" />
+                <ScalarProperty Name="RemoveFlag" ColumnName="RemoveFlag" />
+                <ScalarProperty Name="CancellationReason" ColumnName="CancellationReason" />
+                <ScalarProperty Name="CancelledDate" ColumnName="CancelledDate" />
+                <ScalarProperty Name="MiscNotes" ColumnName="MiscNotes" />
+                <ScalarProperty Name="Market" ColumnName="Market" />
+                <ScalarProperty Name="ForeignPrivateIssuerFlag" ColumnName="ForeignPrivateIssuerFlag" />
+                <ScalarProperty Name="NormalAmount" ColumnName="NormalAmount" />
+                <ScalarProperty Name="LongTermCapitalGains" ColumnName="LongTermCapitalGains" />
+                <ScalarProperty Name="ShortTermCapitalGains" ColumnName="ShortTermCapitalGains" />
+                <ScalarProperty Name="ReturnOfCapital" ColumnName="ReturnOfCapital" />
+                <ScalarProperty Name="Special" ColumnName="Special" />
+                <ScalarProperty Name="Other" ColumnName="Other" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pollings">
+            <EntityTypeMapping TypeName="ARDWAModel.Polling">
+              <MappingFragment StoreEntitySet="Polling">
+                <ScalarProperty Name="UnFileName" ColumnName="UnFileName" />
+                <ScalarProperty Name="Path" ColumnName="Path" />
+                <ScalarProperty Name="Flag" ColumnName="Flag" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
