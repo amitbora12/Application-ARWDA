@@ -119,15 +119,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\ARWDADatabase.mdf" />
+    <Content Include="App_Data\ARWDADatabase_log.ldf">
+      <DependentUpon>ARWDADatabase.mdf</DependentUpon>
+    </Content>
     <Content Include="Global.asax" />
-    <Content Include="Models\ARWDAModel.Context.tt">
+    <Content Include="Models\ARDWAModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ARWDAModel.edmx</DependentUpon>
-      <LastGenOutput>ARWDAModel.Context.cs</LastGenOutput>
+      <DependentUpon>ARDWAModel.edmx</DependentUpon>
+      <LastGenOutput>ARDWAModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\ARDWAModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ARDWAModel.edmx</DependentUpon>
+      <LastGenOutput>ARDWAModel.cs</LastGenOutput>
     </Content>
     <Content Include="Models\ARWDAModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ARWDAModel.edmx</DependentUpon>
+      <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ARWDAModel.cs</LastGenOutput>
     </Content>
     <Content Include="scripts\ai.0.22.19-build00125.js" />
@@ -139,20 +148,30 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\ARWDAModel.Context.cs">
+    <Compile Include="Models\ARDWAModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ARWDAModel.Context.tt</DependentUpon>
+      <DependentUpon>ARDWAModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ARDWAModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ARDWAModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ARDWAModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ARDWAModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\ARWDAModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>ARWDAModel.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="Models\ARWDAModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>ARWDAModel.edmx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="Models\AssignPerson.cs">
       <DependentUpon>ARWDAModel.tt</DependentUpon>
@@ -179,12 +198,16 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <EntityDeploy Include="Models\ARDWAModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ARDWAModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
     <EntityDeploy Include="Models\ARWDAModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ARWDAModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\ARWDAModel.edmx.diagram">
-      <DependentUpon>ARWDAModel.edmx</DependentUpon>
+    <Content Include="Models\ARDWAModel.edmx.diagram">
+      <DependentUpon>ARDWAModel.edmx</DependentUpon>
     </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -194,7 +217,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Controllers\" />
   </ItemGroup>
   <ItemGroup>
