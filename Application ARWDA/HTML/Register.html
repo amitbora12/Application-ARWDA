@@ -1,0 +1,235 @@
+﻿ <!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+
+    <link href="../Bootstrap/bootstrap.css" rel="stylesheet" />
+    <link href="../Bootstrap/bootstrap.min.css" rel="stylesheet" />
+
+    <script src="../scripts/jquery-1.10.2.min.js"></script>
+    <link href="../Bootstrap/Site.css" rel="stylesheet" />
+
+       <script type="text/javascript">
+
+            var myList = $.ajax({
+                type: 'GET',
+                url: "/api/AssignPerson",
+                data: { get_param: 'value' },
+                dataType: 'json',
+                global: false,
+                async: false,
+                error: function (e) {
+                    console.log(e);
+                },
+                success: function (data) {
+                    return data;
+                }
+            }).responseJSON;
+
+            
+        function buildHtmlTable() {
+            var columns = addAllColumnHeaders(myList);
+            for (var i = 0 ; i < myList.length ; i++) {
+                var row$ = $('<tr/>');
+                for (var colIndex = 0 ; colIndex < columns.length ; colIndex++) {
+                    var cellValue = myList[i][columns[colIndex]];
+
+                    if (cellValue == null) { cellValue = ""; }
+
+                    row$.append($('<td/>').html(cellValue));
+                }
+                $("#table").append(row$);
+            }
+        }
+
+        function addAllColumnHeaders(myList) {
+            var columnSet = [];
+            var headerTr$ = $('<tr/>');
+
+            for (var i = 0 ; i < myList.length ; i++) {
+                var rowHash = myList[i];
+                for (var key in rowHash) {
+                    if ($.inArray(key, columnSet) == -1) {
+                        columnSet.push(key);
+                        headerTr$.append($('<th/>').html(key));
+                    }
+                }
+            }
+            $("#table").append(headerTr$);
+
+            return columnSet;
+        }
+
+        function createUser() {
+            var officer , level, submit = 0 ;
+
+            var user = document.getElementById('UsernameTxt').value;
+            if (document.getElementById('PasswordTxt').value == document.getElementById('PasswordConfirmTxt').value) {
+                var pass = document.getElementById('PasswordTxt').value;
+            } else {
+                alert("Password not match");
+            }
+
+            var email = document.getElementById('EmailTxt').value;
+           
+            var answer = document.getElementById('usertype1').value;
+          
+            if (answer == "Analyst") {
+                   officer = document.getElementById('ManagerAssignTxt').value;
+                   level = 3;
+            } else if (answer == "Manager") {
+                   officer = 1;
+                   level = 2;
+            } else
+                   alert("User Type not selected");
+       
+            var push = {'Username': user, 'Password': pass, 'PersonLevel': parseInt(level), 'EmailAddress': email, 'ForgotFlag': "No", 'AssignedOfficer': parseInt(officer)};
+
+            var LoginTable = $.ajax({
+                type: 'GET',
+                url: "/api/AssignPerson",
+                data: { get_param: 'value' },
+                dataType: 'json',
+                global: false,
+                async: false,
+                error: function (e) {
+                    console.log(e);
+                },
+                success: function (data) {
+                    return data;
+                }
+            }).responseJSON;
+            var flag = "no";
+            for (var run = 0; run < LoginTable.length; run++) {
+                if (user == LoginTable[run].Username) {
+                    flag = "present";
+                    alert("Username Present");
+                }
+            }
+            if (flag == "no") {
+
+                $.ajax({
+                    type: 'POST',
+                    url: "/api/Logins",
+                    data: JSON.stringify(push),
+                    error: function (e) {
+                        console.log(e);
+                    },
+                    dataType: "json",
+                    contentType: "application/json"
+                });
+                alert("Successfully added new user");
+                submit = 1;
+            }
+
+            if (answer == "Manager") {
+                var ErrorTable = $.ajax({
+                    type: 'GET',
+                    url: "/api/AssignPerson",
+                    data: { get_param: 'value' },
+                    dataType: 'json',
+                    global: false,
+                    async: false,
+                    error: function (e) {
+                        console.log(e);
+                    },
+                    success: function (data) {
+                        return data;
+                    }
+                }).responseJSON;
+                var ID = 0;
+                for (var run = 0; run < ErrorTable.length; run++) {
+                    if (ID < ErrorTable[run].ID) {
+                        ID = ErrorTable[run].ID;
+                    }
+                }
+                NewID = ID + 1;
+
+                var AssignData = {
+                    'ID': NewID, 'PersonName': user, 'PersonLevel': 2 };
+               
+                $.ajax({
+                    type: 'POST',
+                    url: "/api/AssignPerson",
+                    data: JSON.stringify(AssignData),
+                    error: function (e) {
+                        console.log(e);
+                    },
+                    dataType: "json",
+                    contentType: "application/json"
+                });
+            }
+            if (submit == 1) {
+                    location.href = "AdminPage.html";
+                }
+            
+        }
+
+        
+    </script>
+
+</head>
+
+<body onLoad="buildHtmlTable()">
+    <h1> Managers Table</h1>
+    <table id="table"></table>
+
+    <form id="geoform" align="center" method="post">
+        <h1>Register</h1>
+
+        <h2>Please complete all fields below:</h2>
+        <label for="UsernameLbl">Username</label>   <input id="UsernameTxt" type="text" />
+        <br>
+
+        <br>
+
+        <label for="PasswordLbl">Password:</label>   <input id="PasswordTxt" type="text" />
+
+        <br>
+
+        <br>
+
+        <label for="PasswordConfirmLbl">Confirm Password:</label>   <input id="PasswordConfirmTxt" type="text" />
+
+        <br>
+
+        <br>
+
+        <label for="EmailLbl">Email Address:</label>   <input id="EmailTxt" type="text" />
+
+        <br>
+
+        <br>
+
+        <p>
+
+            Please select the user type:
+            <select
+			<select id ="usertype1" name="usertype" onchange="if (this.selectedIndex == 1)
+			{
+				document.getElementById('ManagerAssignTxt').style.visibility='visible';
+				document.getElementById('hiddenDiv').style.visibility='visible';
+			}else
+			{
+				document.getElementById('ManagerAssignTxt').style.visibility='hidden';
+				document.getElementById('hiddenDiv').style.visibility='hidden';
+			}">
+			<option value="Select">Please Select</option>
+
+            <option value="Analyst">Analyst</option>
+
+            <option value="Manager">Manager</option>
+
+        </select>
+
+
+
+        <div id="hiddenDiv" <label for="ManagerAssignLbl">Enter the Analyst's Manager ID:</label> </div>
+        <input id="ManagerAssignTxt" type="text" />
+
+        </p>
+        <input id="sum" type="button" value="Submit" onclick="createUser()" />
+</body>
+</html>

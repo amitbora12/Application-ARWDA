@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Menu</title>
+    <meta charset="utf-8" />
+
+    <link href="../Bootstrap/bootstrap.css" rel="stylesheet" />
+    <link href="../Bootstrap/bootstrap.min.css" rel="stylesheet" />
+
+    <script src="../scripts/jquery-1.10.2.min.js"></script>
+    <link href="../Bootstrap/Site.css" rel="stylesheet" />
+
+    <script src="../scripts/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        console.log(localStorage.getItem("UserName"));
+        console.log(localStorage.getItem("PersonLevel"));
+    </script>
+    
+</head>
+<body>
+
+    <h1>ARDWA</h1>
+
+    <h2>Please select one workflow list:</h2>
+
+    <button class="button UnknownStock" button id="USbutton" onclick="window.location.href=MasterTable.html">Unknown Stock</button>
+
+    <script type="text/javascript">
+        document.getElementById("USbutton").onclick = function ()
+        {
+            location.href = "MasterTable.html";
+        };
+    </script>
+
+    <button class="button MissingData" button id ="MDbutton" onclick="window.location.href=MasterTable.html">Missing Data</button> 
+    <script type="text/javascript">
+        document.getElementById("MDbutton").onclick = function ()
+        {
+            location.href = "MasterTable.html";
+        };
+    </script>
+      
+    <button class="button InvalidDate" button id="BIbutton" onclick="window.location.href=MasterTable.html">Invalid Date</button> 
+    <script type="text/javascript">
+        document.getElementById("BIbutton").onclick = function ()
+        {
+            location.href = "MasterTable.html";
+        };
+    </script>
+
+</body>
+</html>

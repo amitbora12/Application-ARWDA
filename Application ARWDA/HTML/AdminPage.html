@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <meta charset="utf-8" />
+    <link href="../Bootstrap/bootstrap.css" rel="stylesheet" />
+    <link href="../Bootstrap/bootstrap.min.css" rel="stylesheet" />
+
+    <script src="../scripts/jquery-1.10.2.min.js"></script>
+    <link href="../Bootstrap/Site.css" rel="stylesheet" />
+</head>
+
+<body>
+    <h1>ARDWA</h1>
+
+    <h2>Please select from the below options:</h2>
+
+    <button class="button MasterDataAdmin" button id="MaDbutton" onclick="window.location.href=MasterHTML.html">Master Table</button>
+
+    <script type="text/javascript">
+        document.getElementById("MaDbutton").onclick = function ()
+        {
+            location.href = "MasterHTML.html";
+        };
+    </script>
+
+    <button class="button UnknownStockAdmin" button id="USbutton" onclick="window.location.href=MasterTable.html">Unknown Stock Queue</button>
+
+    <script type="text/javascript">
+        document.getElementById("USbutton").onclick = function ()
+        {
+            localStorage.setItem("APage", "UnknownStock");
+            location.href = "QueueTable.html";
+        };
+    </script>
+
+    <button class="button MissingDataAdmin" button id="MDbutton" onclick="window.location.href=MasterTable.html">Missing Data Queue</button>
+    <script type="text/javascript">
+        document.getElementById("MDbutton").onclick = function ()
+        {
+            localStorage.setItem("APage", "MissingData");
+            location.href = "QueueTable.html";
+        };
+    </script>
+
+    <button class="button InvalidDateAdmin" button id="BIbutton" onclick="window.location.href=MasterTable.html">Invalid Date Queue</button>
+    <script type="text/javascript">
+        document.getElementById("BIbutton").onclick = function ()
+        {
+            localStorage.setItem("APage", "InvalidDate");
+            location.href = "QueueTable.html";
+        };
+    </script>
+
+
+     <button class="button LoadNewFiles" button id="LNFbutton" onclick="window.location.href=MasterRead.html">Load New Files</button>
+    <script type="text/javascript">
+        document.getElementById("LNFbutton").onclick = function ()
+        {
+            location.href = "MasterRead.html";
+        };
+    </script>
+
+
+    <button class="button NewUser" button id="NUbutton" onclick="window.location.href='https://www.rte.ie/'">Create New User</button>
+    <script type="text/javascript">
+        document.getElementById("NUbutton").onclick = function ()
+        {
+            location.href = "Register.html";
+        };
+    </script>
+
+    <button class="button AuditFile" button id="AFbutton" onclick="window.location.href=Audit.html">Audit Files</button>
+    <script type="text/javascript">
+        document.getElementById("AFbutton").onclick = function ()
+        {
+            location.href = "Audit.html";
+        };
+    </script>
+
+</body>
+</html>

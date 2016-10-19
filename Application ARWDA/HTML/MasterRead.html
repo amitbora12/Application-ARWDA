@@ -1,0 +1,408 @@
+﻿<html>
+<head>
+    <title>Login</title>
+    <meta charset="utf-8" />
+    <link href="../Bootstrap/bootstrap.css" rel="stylesheet" />
+    <link href="../Bootstrap/bootstrap.min.css" rel="stylesheet" />
+
+    <script src="../scripts/jquery-1.10.2.min.js"></script>
+    <link href="../Bootstrap/Site.css" rel="stylesheet" />
+
+    <script>
+        var openFile = function (event) {
+            
+            var input = event.target;
+            var reader = new FileReader();
+            var ID = 0;
+            reader.onload = function () {
+
+                var text = reader.result;
+                var abc = new Array();
+                abc = text.split("\n");
+                var array = [];
+                
+                var ColumnArray = ["DividendID", "Symbol", "IssueName", "CUSIP", "IssueType", "OutstandingShares", "Frequency", "ExDate", "DeclaredDate",
+                    "ConfirmationDate", "PayDate", "RecordDate", "UpdatedDate", "CAType", "DividendAmount", "DividendCurrency", "Distribution", "RatioTo",
+                    "RatioFor", "FinalAmount", "FinalAmountCurrency", "RemoveFlag", "CancellationReason", "CancelledDate", "MiscNotes", "Market",
+                    "ForeignPrivateIssuerFlag", "NormalAmount", "LongTermCapitalGains", "ShortTermCapitalGains", "ReturnOfCapital", "Special", "Other"];
+
+                var name = document.getElementById('FileInput').value
+                File = name.split('\\');
+                var NewID = 1;
+                var FileName = File[File.length - 1];
+                console.log(FileName);
+                var CurrentDate = new Date();
+                var CuTime = CurrentDate.toJSON();
+                var ProcessedRow = 0;
+                var UnknownStockRow = 0;
+                var MissingDataRow = 0;
+                var InvalidDateRow = 0;
+                
+                var Fileflag = "no";
+
+                var MasterTable = $.ajax({
+                    type: 'GET',
+                    url: "/api/Audit",
+                    data: { get_param: 'value' },
+                    dataType: 'json',
+                    global: false,
+                    async: false,
+                    error: function (e) {
+                        console.log(e);
+                    },
+                    success: function (data) {
+                        return data;
+                    }
+                }).responseJSON;
+
+
+                var AuditTable = $.ajax({
+                    type: 'GET',
+                    url: "/api/Audit",
+                    data: { get_param: 'value' },
+                    dataType: 'json',
+                    global: false,
+                    async: false,
+                    error: function (e) {
+                        console.log(e);
+                    },
+                    success: function (data) {
+                        return data;
+                    }
+                }).responseJSON;
+                
+                
+                for (var run = 0; run < AuditTable.length; run++) {
+                    if (FileName == AuditTable[run].ProcesseedFileName) {
+                        Fileflag = "present";
+                        break;
+                    }
+                }
+                
+                if (Fileflag == "no") {
+                    var Audit = { 'ProcesseedFileName': FileName, 'ProcessedDateTime': CuTime, 'RowsInFile': abc.length, 'AutoProcessedRows': ProcessedRow, 'RowsUnknownStock': UnknownStockRow, 'RowsInvalidDate': InvalidDateRow, 'RowsMissingData': MissingDataRow };
+                    $.ajax({
+                        type: 'POST',
+                        url: "/api/Audit",
+                        data: JSON.stringify(Audit),
+                        global: false,
+                        async: false,
+                        error: function (e) {
+                            console.log(e);
+                        },
+                        dataType: "json",
+                        contentType: "application/json"
+                    });
+
+                    for (var i = 0; i < abc.length; i++)
+                    {
+                        var SymbolPresentFlag = 0;
+                        var Unknownflag = 0;
+                        var Missingflag = 0;
+                        var Invalidflag = 0;
+                        var abcd = abc[i].split("|");
+                        if (abcd.length == 33) {
+
+                            for (var i = 16; i < 20; i++) {
+                                if (abcd[i] != "") {
+                                    var temp = abcd[i];
+                                    abcd[i] = parseFloat(temp);
+                                }
+                            }
+                            if (abcd[14] != "") {
+                                var temp = abcd[14];
+                                abcd[i] = parseFloat(temp);
+                            }
+                            if (abcd[27] != "") {
+                                var temp = abcd[27];
+                                abcd[27] = parseFloat(temp);
+                            }
+
+                            for (var sym = 0; sym < MasterTable.length; sym++)
+                            {
+                                if (abcd[2] == MasterTable[sym].Symbol)
+                                {
+                                    SymbolPresentFlag = 1;
+                                    for (var x = 0, loop = 5; x < loop; x++) {
+                                        if (abcd[x] == "") {
+                                            ErrorCol = ColumnArray[x];
+                                            ErrorAdd(ErrorCol,"MissingData");
+                                            MissingDataRow = MissingDataRow + 1;
+                                            Missingflag = 1;
+                                        }
+                                    }
+                                    if (abcd[6] == "") {
+                                        ErrorCol = ColumnArray[6];
+                                        ErrorAdd(ErrorCol, "MissingData");
+                                        MissingDataRow = MissingDataRow + 1;
+                                        Missingflag = 1;
+                                    }
+                                    for (var x = 7, loop = 10; x < loop; x++) {
+                                        if (abcd[x] == "") {
+                                            ErrorCol = ColumnArray[x];
+                                            ErrorAdd(ErrorCol, "MissingData");
+                                            MissingDataRow = MissingDataRow + 1;
+                                            Missingflag = 1;
+                                        } else
+                                        {
+                                            var result = CheckDate(abcd[x]);
+                                            if(result == true)
+                                            {
+                                                var date = abcd[x].split('/');
+                                                abcd[x] = (date[2] + '-' + date[0] + '-' + date[1]);
+                                            }
+                                            else
+                                            {
+                                                ErrorCol = ColumnArray[x];
+                                                ErrorAdd(ErrorCol, "InvalidDate");
+                                                InvalidDateRow = InvalidDateRow + 1;
+                                                Invalidflag=1;
+                                            }
+                                        }
+                                    }
+                                    var result = CheckDate(abcd[10]);
+                                    if(result == true)
+                                    {
+                                        var date = abcd[10].split('/');
+                                        abcd[10] = (date[2] + '-' + date[0] + '-' + date[1]);
+                                    }
+                                    else
+                                    {
+                                        ErrorCol = ColumnArray[10];
+                                        ErrorAdd(ErrorCol, "InvalidDate");
+                                        InvalidDateRow = InvalidDateRow + 1;
+                                        Invalidflag = 1;
+                                    }
+                    
+                                    for (var x = 11; x < 13; x++) {
+                                        if (abcd[x] == "") {
+                                            ErrorCol = ColumnArray[x];
+                                            ErrorAdd(ErrorCol, "MissingData");
+                                            MissingDataRow = MissingDataRow + 1;
+                                            Missingflag=1;
+                                        } else {
+                                            var result = CheckDate(abcd[x]);
+                                            if (result == true) {
+                                                var date = abcd[x].split('/');
+                                                abcd[i] = (date[2] + '-' + date[0] + '-' + date[1]);
+                                            }
+                                            else {
+                                                ErrorCol = ColumnArray[x];
+                                                ErrorAdd(ErrorCol,"InvalidDate");
+                                                InvalidDateRow = InvalidDateRow + 1;
+                                                Invalidflag=1;
+                                            }
+                                        }
+                                    }
+                                    var result = CheckDate(abcd[23]);
+                                    if (result == true) {
+                                        var date = abcd[23].split('/');
+                                        abcd[23] = (date[2] + '-' + date[0] + '-' + date[1]);
+                                    }
+                                    else {
+                                        ErrorCol = ColumnArray[23];
+                                        ErrorAdd(ErrorCol,"InvalidDate");
+                                        InvalidDateRow = InvalidDateRow + 1;
+                                        Invalidflag = 1;
+                                    }
+                                    if (abcd[13] == "") {
+                                        ErrorCol = ColumnArray[13];
+                                        ErrorAdd(ErrorCol, "MissingData");
+                                        MissingDataRow = MissingDataRow + 1;
+                                        Missingflag=1;
+                                    }
+                        
+                                    if (abcd[15] == "") {
+                                        ErrorCol = ColumnArray[15];
+                                        ErrorAdd(ErrorCol, "MissingData");
+                                        MissingDataRow = MissingDataRow + 1;
+                                        Missingflag=1;
+                                    }
+
+                                    if (abcd[21] == "") {
+                                        ErrorCol = ColumnArray[21];
+                                        ErrorAdd(ErrorCol, "MissingData");
+                                        MissingDataRow = MissingDataRow + 1;
+                                        Missingflag=1;
+                                    }
+                                    if (abcd[25] == "") {
+                                        ErrorCol = ColumnArray[25];
+                                        ErrorAdd(ErrorCol, "MissingData");
+                                        MissingDataRow = MissingDataRow + 1;
+                                        Missingflag=1;
+                                    }
+
+                                    function CheckDate(data)
+                                    {
+                                        ////--------------------------------Invalid Date Starting -------------------
+                                        var GivenDate = data.split('/');
+                                        if (GivenDate.length == 3)
+                                        {
+                                            var year = GivenDate[2];
+                                            var month = GivenDate[0];
+                                            var day = GivenDate[1];
+                                            var DateArray = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+                                            var LeapDateArray = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+                                            if (((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0)) {
+                                                if (month < 12) {
+                                                    if (day < (LeapDateArray[month] + 1))
+                                                        return true;
+                                                    else
+                                                        return false;
+                                                } else {
+                                                    return false;
+                                                }
+
+                                            } else {
+                                                if (month < 12) {
+                                                    if (day < (DateArray[month] + 1))
+                                                        return true;
+                                                    else
+                                                        return false;
+                                                } else {
+                                                    return false;
+                                                }
+                                            }
+                                        }
+                                        else
+                                            return false;
+                                    }
+                                }
+
+                                function ErrorAdd(field,fieldType) {
+                                    /////---------------Posting Error Fields Starting------------------------------------
+                            
+                                    var ErrorTable = $.ajax({
+                                        type: 'GET',
+                                        url: "/api/ErrorDatas/",
+                                        data: { get_param: 'value' },
+                                        dataType: 'json',
+                                        global: false,
+                                        async: false,
+                                        error: function (e) {
+                                            console.log(e);
+                                        },
+                                        success: function (data) {
+                                            return data;
+                                        }
+                                    }).responseJSON;
+                                    var ID = 0;
+                                    for (var run = 0; run < ErrorTable.length; run++) {
+                                        if (ID < ErrorTable[run].ID) {
+                                            ID = ErrorTable[run].ID;
+                                        }
+                                    }
+                                    NewID = ID+1;
+                            
+                                    var ErrorData = {
+                                        'ID': NewID, 'FileName': FileName, 'ErrorFieldColumn': field, 'ErrorType': fieldType,'AnalystID': null, 'AnalystComment': null, 'AnalystCompletedTime': null, 'ManagerID': null, 'ManagerComment': null, 'ManagerCompletedTime': null, 'DividendID': parseInt(abcd[0]), 'Symbol': abcd[1], 'IssueName': abcd[2], 'CUSIP': abcd[3], 'IssueType': abcd[4], 'OutstandingShares': parseInt(abcd[5]), 'Frequency': abcd[6], 'ExDate': abcd[7], 'DeclaredDate': abcd[8],
+                                        'ConfirmationDate': abcd[9], 'PayDate': abcd[10], 'RecordDate': abcd[11], 'UpdatedDate': abcd[12], 'CAType': abcd[13], 'DividendAmount': abcd[14], 'DividendCurrency': abcd[15], 'Distribution': abcd[16], 'RatioTo': abcd[17],
+                                        'RatioFor': abcd[18], 'FinalAmount': abcd[19], 'FinalAmountCurrency': abcd[20], 'RemoveFlag': abcd[21], 'CancellationReason': abcd[22], 'CancelledDate': abcd[23], 'MiscNotes': abcd[24], 'Market': abcd[25],
+                                        'ForeignPrivateIssuerFlag': abcd[26], 'NormalAmount': abcd[27], 'LongTermCapitalGains': abcd[28], 'ShortTermCapitalGains': abcd[29], 'ReturnOfCapital': abcd[30], 'Special': abcd[31], 'Other': abcd[32]
+                                    };
+                            
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: "/api/ErrorDatas",
+                                        data: JSON.stringify(ErrorData),
+                                        error: function (e) {
+                                            console.log(e);
+                                        },
+                                        dataType: "json",
+                                        contentType: "application/json"
+                                    });
+                                    /////---------------Posting Error Fields Ending------------------------------------
+                                }
+
+                            }
+                            if (SymbolPresentFlag == 0)
+                            {
+                                UnknownStockRow = UnknownStockRow +1;
+                                ErrorAdd(Symbol,"UnknownStock")
+                            }
+                            var Audit = { 'ProcesseedFileName': FileName, 'ProcessedDateTime': CuTime, 'RowsInFile': abc, 'AutoProcessedRows': ProcessedRow, 'RowsUnknownStock': UnknownStockRow, 'RowsInvalidDate': InvalidDateRow, 'RowsMissingData': MissingDataRow };
+
+                            $.ajax({
+                                type: 'PUT',
+                                url: '/api/Audit?' + FileName,
+                                data: JSON.stringify(Audit),
+                                error: function (e) {
+                                    console.log(e);
+                                },
+                                dataType: "json",
+                                contentType: "application/json; charset=utf-8"
+                            });
+                        }else 
+                        {
+                            ///////----------Posting Error data Starting -----------------------------------
+                
+                            var MasterData = { 'ErrorData': abc[i] }
+                            $.ajax({
+                                type: 'POST',
+                                url: "/api/ErrorFields",
+                                data: JSON.stringify(MasterData),
+                                error: function (e) {
+                                    console.log(e);
+                                },
+                                dataType: "json",
+                                contentType: "application/json"
+                            });
+                        }
+                    }
+                }else
+                {
+                    alert("File already processed");
+                }
+            }
+            reader.readAsText(input.files[0]);
+        };
+        
+                       
+                         
+                        
+                        
+                        
+                        
+                       
+
+
+                            
+                            
+
+
+         /* 
+            
+            /////-------------------------Posting processed Data in Master Table --------------- 
+            {  
+                var MasterData = {'DividendID': parseInt(abcd[0]), 'Symbol': abcd[1], 'IssueName': abcd[2], 'CUSIP': abcd[3], 'IssueType': abcd[4], 'OutstandingShares': parseInt(abcd[5]), 'Frequency': abcd[6], 'ExDate': abcd[7], 'DeclaredDate': abcd[8],
+                    'ConfirmationDate': abcd[9], 'PayDate': abcd[10], 'RecordDate': abcd[11], 'UpdatedDate': abcd[12], 'CAType': abcd[13], 'DividendAmount': abcd[14], 'DividendCurrency': abcd[15], 'Distribution': abcd[16], 'RatioTo': abcd[17],
+                    'RatioFor': abcd[18], 'FinalAmount': abcd[19], 'FinalAmountCurrency': abcd[20], 'RemoveFlag': abcd[21], 'CancellationReason': abcd[22], 'CancelledDate': abcd[23], 'MiscNotes': abcd[24], 'Market': abcd[25],
+                    'ForeignPrivateIssuerFlag': abcd[26], 'NormalAmount': abcd[27], 'LongTermCapitalGains': abcd[28], 'ShortTermCapitalGains': abcd[29], 'ReturnOfCapital': abcd[30], 'Special': abcd[31], 'Other': abcd[32]
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: "/api/MasterInstruments",
+                    data: JSON.stringify(MasterData),
+                    error: function (e) {
+                        console.log(e);
+                    },
+                    dataType: "json",
+                    contentType: "application/json"
+                });
+                ProcessedRow = ProcessedRow + 1;
+            }
+            /////-------------------Posting processed Data in Master Table --------------- 
+        }
+
+*/
+        
+
+    </script>
+</head>
+<body>
+    <input id="FileInput" type='file' accept='text/plain' onchange='openFile(event)'><br>
+    <p id='output1'>
+    </p>
+</body>
+</html>

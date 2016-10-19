@@ -1,0 +1,90 @@
+﻿body {
+    padding-top: 40px;
+    padding-bottom: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+    background-color: #ccccff;
+}
+
+h1{
+    border: 2px solid #3333cc;
+    border-radius: 8px;
+    padding-top: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    background-color: #3333cc;
+    color:#ccccff;
+    font-size: 50px;
+}
+
+h2{
+    padding-top: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+}
+
+#registerForm{
+    padding-top: 15px;
+    padding-right: 15px;
+    padding-bottom: 25px;
+    padding-left: 15px;
+}
+
+.UnknownStock, .MissingData, .InvalidDate{
+    width: 30%;
+    font-size: 36px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin:auto;
+    display:block;
+}
+
+#LoadNewFiles{
+    text-align: right;
+    display: inline-block;
+    float: right;
+}
+
+button{
+    margin-top: 30px;
+    font-size: 15px;
+    padding-top: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    border-radius: 12px;
+    background-color: #3333cc;
+    color:#ccccff;
+
+}
+
+button:hover {
+    background-color: #4169E1;
+    color: white;
+}
+
+label {
+    width:250px;
+    clear:left;
+    text-align:right;
+    padding-right:50px;
+}
+
+input, label {
+    float:left;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}

@@ -119,76 +119,104 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Bootstrap\bootstrap.css" />
+    <Content Include="Bootstrap\bootstrap.min.css" />
+    <Content Include="Bootstrap\Site.css" />
+    <Content Include="ErrorData.html" />
+    <Content Include="HTML\AdminPage.html" />
+    <Content Include="HTML\Login.html" />
+    <Content Include="HTML\Audit.html" />
+    <Content Include="HTML\MasterTable.html" />
+    <Content Include="HTML\MenuPage.html" />
+    <Content Include="HTML\MasterHTML.html" />
     <Content Include="App_Data\ARWDADatabase.mdf" />
     <Content Include="App_Data\ARWDADatabase_log.ldf">
       <DependentUpon>ARWDADatabase.mdf</DependentUpon>
     </Content>
+    <Content Include="HTML\QueueTable.html" />
+    <Content Include="HTML\MasterRead.html" />
     <Content Include="Global.asax" />
-    <Content Include="Models\ARDWAModel.Context.tt">
+    <Content Include="Model\ARWDAModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ARDWAModel.edmx</DependentUpon>
-      <LastGenOutput>ARDWAModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\ARDWAModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ARDWAModel.edmx</DependentUpon>
-      <LastGenOutput>ARDWAModel.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\ARWDAModel.tt">
       <DependentUpon>ARWDAModel.edmx</DependentUpon>
+      <LastGenOutput>ARWDAModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Model\ARWDAModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ARWDAModel.edmx</DependentUpon>
       <LastGenOutput>ARWDAModel.cs</LastGenOutput>
     </Content>
+    <Content Include="HTML\Register.html" />
     <Content Include="scripts\ai.0.22.19-build00125.js" />
     <Content Include="scripts\ai.0.22.19-build00125.min.js" />
+    <EntityDeploy Include="Model\ARWDAModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ARWDAModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Model\ARWDAModel.edmx.diagram">
+      <DependentUpon>ARWDAModel.edmx</DependentUpon>
+    </Content>
+    <None Include="scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="scripts\bootstrap.js" />
+    <Content Include="scripts\bootstrap.min.js" />
+    <Content Include="scripts\jquery-1.10.2.js" />
+    <Content Include="scripts\jquery-1.10.2.min.js" />
+    <None Include="scripts\jquery.validate-vsdoc.js" />
+    <Content Include="scripts\jquery.validate.js" />
+    <Content Include="scripts\jquery.validate.min.js" />
+    <Content Include="scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="scripts\modernizr-2.6.2.js" />
+    <Content Include="scripts\respond.js" />
+    <Content Include="scripts\respond.min.js" />
+    <None Include="scripts\_references.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AssignPersonController.cs" />
+    <Compile Include="Controllers\AuditController.cs" />
+    <Compile Include="Controllers\ErrorDatasController.cs" />
+    <Compile Include="Controllers\ErrorFieldsController.cs" />
+    <Compile Include="Controllers\LoginsController.cs" />
+    <Compile Include="Controllers\MasterInstrumentsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\ARDWAModel.Context.cs">
+    <Compile Include="Model\ARWDAModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ARDWAModel.Context.tt</DependentUpon>
+      <DependentUpon>ARWDAModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ARDWAModel.cs">
+    <Compile Include="Model\ARWDAModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ARDWAModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ARDWAModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ARDWAModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ARWDAModel.cs">
       <DependentUpon>ARWDAModel.tt</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="Models\ARWDAModel.Designer.cs">
+    <Compile Include="Model\ARWDAModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
       <DependentUpon>ARWDAModel.edmx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="Models\AssignPerson.cs">
+    <Compile Include="Model\AssignPerson.cs">
       <DependentUpon>ARWDAModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Audit.cs">
+    <Compile Include="Model\Audit.cs">
       <DependentUpon>ARWDAModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ErrorData.cs">
+    <Compile Include="Model\ErrorData.cs">
       <DependentUpon>ARWDAModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Login.cs">
+    <Compile Include="Model\ErrorField.cs">
       <DependentUpon>ARWDAModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\MasterInstrument.cs">
+    <Compile Include="Model\Login.cs">
       <DependentUpon>ARWDAModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Polling.cs">
+    <Compile Include="Model\MasterInstrument.cs">
+      <DependentUpon>ARWDAModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Polling.cs">
       <DependentUpon>ARWDAModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -198,17 +226,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <EntityDeploy Include="Models\ARDWAModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ARDWAModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <EntityDeploy Include="Models\ARWDAModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ARWDAModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\ARDWAModel.edmx.diagram">
-      <DependentUpon>ARDWAModel.edmx</DependentUpon>
-    </Content>
+    <Content Include="scripts\jquery-1.10.2.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -216,9 +234,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>

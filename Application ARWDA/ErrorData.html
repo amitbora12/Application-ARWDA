@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+
+    <style>
+        td {border: 1px #DDD solid; padding: 5px; cursor: pointer;}
+
+        .selected {
+        background-color: brown;
+        color: #FFF;
+        }
+    </style>
+    
+    <script src="scripts/jquery-1.10.2.min.js"></script>
+    
+        <script type="text/javascript" >
+
+            
+            var myList = $.ajax({
+                type: 'GET',
+                url: "api/ErrorDatas",
+                data: { get_param: 'value' },
+                dataType: 'json',
+                global: false,
+                async: false,
+                error: function (e) {
+                    console.log(e);
+                },
+                success: function (data) {
+                    return data;
+                }
+            }).responseJSON;
+
+
+        function buildHtmlTable() {
+            var columns = addAllColumnHeaders(myList);
+            for (var i = 0 ; i < myList.length ; i++) {
+                var row$ = $('<tr/>');
+                for (var colIndex = 0 ; colIndex < columns.length ; colIndex++) {
+                    var cellValue = myList[i][columns[colIndex]];
+
+                    if (cellValue == null) { cellValue = ""; }
+
+                    row$.append($('<td/>').html(cellValue));
+                }
+                $("#table").append(row$);
+            }
+        }
+
+        function addAllColumnHeaders(myList) {
+            var columnSet = [];
+            var headerTr$ = $('<tr/>');
+
+            for (var i = 0 ; i < myList.length ; i++) {
+                var rowHash = myList[i];
+                for (var key in rowHash) {
+                    if ($.inArray(key, columnSet) == -1) {
+                        columnSet.push(key);
+                        headerTr$.append($('<th/>').html(key));
+                    }
+                }
+            }
+            $("#table").append(headerTr$);
+
+            return columnSet;
+        }
+
+    </script>
+</head>
+<body onLoad="buildHtmlTable()">
+    <table id="table"></table>
+    <button id="submit">Submit Row</button>
+    <script>
+        function highlight(e) {
+            if (selected[0]) selected[0].className = '';
+            e.target.parentNode.className = 'selected';
+        }
+
+        var table = document.getElementById('table'),
+            selected = table.getElementsByClassName('selected');
+        table.onclick = highlight;
+
+        function fnselect() {
+
+            alert($("tr.selected td:first").html());
+        }
+        
+    </script>
+</body>
+</html>
